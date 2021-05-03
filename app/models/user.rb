@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_secure_password
 
   validates :email, uniqueness: true
-  validates :password, length: { minimum: 6 }, allow_nil: true
+  validates :password, :password_confirmation, length: { minimum: 6 }, allow_nil: true
   validates :password_digest, :session_token, :email, presence: true
   validate :valid_email
 
