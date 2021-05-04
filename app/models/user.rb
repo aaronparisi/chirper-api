@@ -17,6 +17,8 @@ class User < ApplicationRecord
   validates :password_digest, :session_token, :email, presence: true
   validate :valid_email
 
+  after_initialize :ensure_session_token
+
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
     return nil unless user
@@ -24,7 +26,7 @@ class User < ApplicationRecord
   end  
 
   def valid_email
-    if ! self.email =~ /^(.+)@(.+)$/
+    if (self.email =~ /^(.+)@(.+)$/).nil?
       errors.add(:email, "must be a valid e-mail address")
     end
   end
